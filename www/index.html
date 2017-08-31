@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    ons.ready(function() {
+      
+      //デバッグモード (リリース時はにしてください。)
+      MobileInsight.setDebug(true);
+    
+    　// Yahoo! MOBILE INSIGHT ダッシュボードのアプリ一覧画面で確認し、書き換えてください。
+      var yourAppID = 'Your AppID'; 
+      var yourAppSecre = 'Your AppSecret';
+    
+      //セッションのトラック
+      MobileInsight.startTrack(
+        yourAppID,
+        yourAppSecre, 
+        function(success){console.log(success)},
+        function(error) {
+          console.log(error);
+        }
+      );
+
+      $('#signUpBtn').on('click', function(e){
+        e.preventDefault();
+
+        var gender = $('input[name="gender"]:checked').val()=='Male'? MobileInsightUserGenderType.Male:MobileInsightUserGenderType.Female;
+        var birthYear = $('input[name="birthYear"]').val();
+        // 今回はメールアドレスをカスタマーIDとしています。
+        var customerID =  $('input[name="email"]').val();
+        // 任意の追加要素。今回は名前を設定します。
+        var attribute = $('input[name="name"]').val();
+    
+        console.log(gender, customerID, birthYear, attribute);
+         
+        //ユーザー情報の送信
+        MobileInsight.setUser(
+          gender, customerID, birthYear, attribute,
+          function(success){console.log(success)},
+          function(error) {
+              console.log(error);
+          }
+        );
+        // サインアップイベントの登録
+        var method = 'method';
+        var success = true;
+        var status = 'status';
+    
+        MobileInsight.sendSignUpEvent(
+            method, success, status,
+            null,
+            function(error) {
+              console.log(error);
+            }
+        );
+    
+      });
+      
+    });
+
+  </script>
+</head>
+<body>
+
+    <ons-page>
+      <ons-toolbar>
+       <!--  <div class="left"><ons-back-button>Back</ons-back-button></div> -->
+        <div class="center">Sign up</div>
+      </ons-toolbar>
+
+      <div class="formarea">
+        <div class="form-row">
+          <input type="text" class="text-input--underbar width-full" name="name" placeholder="Name" value="">
+        </div>
+
+        <div class="form-row">
+          <input type="text" class="text-input--underbar width-full" name="email" placeholder="Email" value="">
+        </div>
+
+        <div class="form-row">
+          <input type="text" class="text-input--underbar width-full" name="birthYear" placeholder="birthYear" value="">
+        </div>
+
+        <div class="form-row">
+          <input type="password" class="text-input--underbar width-full" name="password" placeholder="Password" value="">
+        </div>
+
+        <div class="form-row form-row--radio">
+          <label class="radio-button radio-button--list-item">
+            <input id="Male" class="radio-button__input" type="radio" name="gender" value="Male" checked>
+            <div class="radio-button__checkmark radio-button--list-item__checkmark"></div>
+            Male
+          </label>
+        </div>
+
+        <div class="form-row form-row--radio">
+          <label class="radio-button radio-button--list-item">
+            <input id="Female" class="radio-button__input" type="radio" value="Female" name="gender">
+            <div class="radio-button__checkmark radio-button--list-item__checkmark"></div>
+             Female
+          </label>
+        </div>
+
+        <div class="vspc form-row">
+          <ons-button modifier="large--cta" id="signUpBtn">Sign up</ons-button>
+        </div>
+      </div>
+
+    </ons-page>
+
+ 
+</body>
+</html>
