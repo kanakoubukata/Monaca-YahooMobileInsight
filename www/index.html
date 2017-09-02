@@ -15,10 +15,10 @@
   <script>
     ons.ready(function() {
       
-      //デバッグモード (リリース時はにしてください。)
+      //デバッグモード (リリース時はにfalseしてください。)
       MobileInsight.setDebug(true);
     
-    　// Yahoo! MOBILE INSIGHT ダッシュボードのアプリ一覧画面で確認し、書き換えてください。
+      // Yahoo! MOBILE INSIGHT ダッシュボードのアプリ一覧画面で確認し、書き換えてください。
       var yourAppID = 'Your AppID'; 
       var yourAppSecre = 'Your AppSecret';
     
@@ -33,8 +33,6 @@
       );
 
       $('#signUpBtn').on('click', function(e){
-        e.preventDefault();
-
         var gender = $('input[name="gender"]:checked').val()=='Male'? MobileInsightUserGenderType.Male:MobileInsightUserGenderType.Female;
         var birthYear = $('input[name="birthYear"]').val();
         // 今回はメールアドレスをカスタマーIDとしています。
